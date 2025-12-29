@@ -83,6 +83,8 @@ Issues and pull requests are welcome.
 
 MIT License.
 
+## Sample Output
+
 Here is the output of the sample programs compiled with g++.
 
 ```
@@ -614,4 +616,5 @@ sorted by close
 2025-10-28 13:35:00   687.070007
 2025-10-28 13:40:00   687.166667
 ```
+
 
