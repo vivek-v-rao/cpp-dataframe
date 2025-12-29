@@ -4,7 +4,7 @@ A header-only (with small cpp helpers) C++17 implementation of a DataFrame that 
 
 ## Motivation
 
-C++ frequently lacks a convenient, flexible in-memory tabular structure. Most teams end up reinventing custom row/column utilities or fall back to Python/R for data munging even when their core systems are C++. This project aims to provide a pragmatic DataFrame with the following goals:
+C++ lacks a convenient, flexible in-memory tabular structure. Most teams end up reinventing custom row/column utilities or fall back to Python/R for data munging even when their core systems are C++. This project aims to provide a pragmatic DataFrame with the following goals:
 
 - **Native C++17**: no external dependencies apart from the standard library.
 - **Typed indices**: indexes can be integers, strings, `Date`, `DateTime`, etc., with custom parsing/formatting.
@@ -616,5 +616,6 @@ sorted by close
 2025-10-28 13:35:00   687.070007
 2025-10-28 13:40:00   687.166667
 ```
+
 
 
