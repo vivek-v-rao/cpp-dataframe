@@ -1,0 +1,38 @@
+# Makefile.msvc - build dataframe demos with Microsoft Visual C++ (cl.exe)
+# Usage: make -f Makefile.msvc
+
+CC := cl
+CFLAGS := /nologo /std:c++17 /EHsc /W4 /O2
+LDFLAGS :=
+
+COMMON_SRCS = stats.cpp date_utils.cpp
+COMMON_OBJS = $(COMMON_SRCS:.cpp=.obj)
+
+PROGRAMS = df_demo x_basic x_arithmetic x_stats x_indexing x_io x_construct x_intraday
+PROGRAM_SRCS = x_basic.cpp x_arithmetic.cpp x_stats.cpp x_indexing.cpp x_io.cpp x_construct.cpp x_intraday.cpp
+PROGRAM_OBJS = $(PROGRAM_SRCS:.cpp=.obj)
+MAIN_OBJ = main.obj
+
+all: $(PROGRAMS)
+
+# Default implicit rule
+deps = dataframe.h sample_utils.h print_utils.h stats.h date_utils.h
+%.obj: %.cpp $(deps)
+	$(CC) $(CFLAGS) /c $<
+
+# Link rules
+df_demo: $(MAIN_OBJ) $(COMMON_OBJS)
+	$(CC) $(CFLAGS) $^ /Fe$@
+
+$(filter-out df_demo,$(PROGRAMS)): %: %.obj $(COMMON_OBJS)
+	$(CC) $(CFLAGS) $^ /Fe$@
+
+run: all
+	@for prog in $(PROGRAMS); do \
+		printf "\n--- running %s ---\n" "$$prog" && ./$$prog || exit $$?; \
+	done
+
+clean:
+	-del /q $(PROGRAM_OBJS) $(MAIN_OBJ) $(COMMON_OBJS) $(PROGRAMS).exe 2>nul
+
+.PHONY: all run clean

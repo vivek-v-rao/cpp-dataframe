@@ -1,0 +1,53 @@
+# Makefile.clang - build dataframe demos with clang++
+# Usage: make -f Makefile.clang
+
+CXX      := clang++
+CXXFLAGS := -std=c++17 -Wall -Wextra -O2
+
+COMMON_SRCS := stats.cpp date_utils.cpp
+COMMON_OBJS := $(COMMON_SRCS:.cpp=.o)
+
+SAMPLE_SRCS := x_basic.cpp x_arithmetic.cpp x_stats.cpp x_indexing.cpp x_io.cpp x_construct.cpp x_intraday.cpp
+SAMPLE_OBJS := $(SAMPLE_SRCS:.cpp=.o)
+
+PROGRAMS := df_demo x_basic x_arithmetic x_stats x_indexing x_io x_construct x_intraday
+
+all: $(PROGRAMS)
+
+df_demo: main.o $(COMMON_OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+x_basic: x_basic.o $(COMMON_OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+x_arithmetic: x_arithmetic.o $(COMMON_OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+x_stats: x_stats.o $(COMMON_OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+x_indexing: x_indexing.o $(COMMON_OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+x_io: x_io.o $(COMMON_OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+x_construct: x_construct.o $(COMMON_OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+x_intraday: x_intraday.o $(COMMON_OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+%.o: %.cpp dataframe.h sample_utils.h print_utils.h stats.h date_utils.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+run: all
+	@for prog in $(PROGRAMS); do \
+		printf "\n--- running %s ---\n" "$$prog"; \
+		./$$prog || exit $$?; \
+	done
+
+clean:
+	rm -f main.o $(SAMPLE_OBJS) $(COMMON_OBJS) $(PROGRAMS)
+
+.PHONY: all run clean
