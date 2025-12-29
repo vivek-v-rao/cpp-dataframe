@@ -51,7 +51,6 @@ All executables build via `make`. `make run` executes:
 - **Type coverage**: Columns are `double` only. Adding string or integer data columns would require significant rework.
 - **Performance**: Current storage is `std::vector<std::vector<double>>`; heavy numeric workloads might prefer contiguous storage and SIMD-friendly operations.
 - **Error handling**: Many functions throw `std::runtime_error` for invalid input; there is no soft error mode.
-- **Kendall tau complexity**: The naive O(n^2) implementation may be slow for very wide/tall datasets; optimized algorithms could replace it if needed.
 - **Thread safety**: No synchronization primitives; users must guard access if using from multiple threads.
 - **Binary format**: Custom, undocumented beyond code comments; subject to change.
 - **Dependencies**: Standard library only means no GPU/BLAS acceleration; integration with third-party libraries could be added.
@@ -78,12 +77,8 @@ Ensure the CSV inputs (e.g., `prices_2000_on.csv`, `SPY_intraday.csv`) are in th
 
 ## Contributing
 
-Issues and pull requests are welcome. Ideas for future additions:
-- Group-by/aggregation framework.
-- Join/merge operations.
-- Additional file formats (Parquet via Arrow bindings, JSON).
-- In-place operations or expression templates for performance.
+Issues and pull requests are welcome.
 
 ## License
 
-(Choose a license, e.g., MIT/BSD, and state it here.)
+MIT License.
